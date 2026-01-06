@@ -1,0 +1,695 @@
+local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+
+local Window = WindUI:CreateWindow({
+    Title = "zhypers Hub",
+    Icon = "blind shot games", -- lucide icon
+    Author = "By zhypers",
+    Folder = "MySuperHub",
+    
+    -- ↓ This all is Optional. You can remove it.
+    Size = UDim2.fromOffset(580, 460),
+    MinSize = Vector2.new(560, 350),
+    MaxSize = Vector2.new(850, 560),
+    Transparent = true,
+    Theme = "Dark",
+    Resizable = true,
+    SideBarWidth = 200,
+    BackgroundImageTransparency = 0.10,
+    HideSearchBar = true,
+    ScrollBarEnabled = false,
+    
+    -- ↓ Optional. You can remove it.
+    --[[ You can set 'rbxassetid://' or video to Background.
+        'rbxassetid://':
+            Background = "monitor", -- rbxassetid
+        Video:
+            Background = "video:YOUR-RAW-LINK-TO-VIDEO.webm", -- video 
+    --]]
+    
+    
+WindUI:AddTheme({
+    Name = "My Theme", -- theme name
+    
+    
+    -- More Soon!
+    
+    Accent = Color3.fromHex("#18181b"),
+    Background = Color3.fromHex("#101010"), -- Accent
+    BackgroundTransparency = 0,
+    Outline = Color3.fromHex("#FFFFFF"),
+    Text = Color3.fromHex("#FFFFFF"),
+    Placeholder = Color3.fromHex("#7a7a7a"),
+    Button = Color3.fromHex("#52525b"),
+    Icon = Color3.fromHex("#a1a1aa"),
+    
+    Hover = Color3.fromHex("#FFFFFF"), -- Text
+    BackgroundTransparency = 0,
+    
+    WindowBackground = Color3.fromHex("101010"), -- Background
+    WindowShadow = Color3.fromHex("000000"),
+    
+    DialogBackground = Color3.fromHex("#101010"), -- Background
+    DialogBackgroundTransparency = 0, -- BackgroundTransparency
+    DialogTitle = Color3.fromHex("#FFFFFF"), -- Text
+    DialogContent = Color3.fromHex("#FFFFFF"), -- Text
+    DialogIcon = Color3.fromHex("#a1a1aa"), -- Icon
+    
+    WindowTopbarButtonIcon = Color3.fromHex("a1a1aa"), -- Icon
+    WindowTopbarTitle = Color3.fromHex("FFFFFF"), -- Text
+    WindowTopbarAuthor = Color3.fromHex("FFFFFF"), -- Text
+    WindowTopbarIcon = Color3.fromHex("FFFFFF"), -- Text
+    
+    TabBackground = Color3.fromHex("#FFFFFF"), -- Text
+    TabTitle = Color3.fromHex("#FFFFFF"), -- Text
+    TabIcon = Color3.fromHex("a1a1aa"), -- Icon
+    
+    ElementBackground = Color3.fromHex("#FFFFFF"), -- Text
+    ElementTitle = Color3.fromHex("#FFFFFF"), -- Text
+    ElementDesc = Color3.fromHex("#FFFFFF"), -- Text
+    ElementIcon = Color3.fromHex("#a1a1aa"), -- Icon
+    
+    PopupBackground = Color3.fromHex("#101010"), -- Background
+    PopupBackgroundTransparency = 0, -- BackgroundTransparency
+    PopupTitle = Color3.fromHex("#FFFFFF"), -- Text
+    PopupContent = Color3.fromHex("#FFFFFF"), -- Text
+    PopupIcon = Color3.fromHex("#a1a1aa"), -- Icon
+    
+    DialogBackground = Color3.fromHex("#101010"), -- Background
+    DialogBackgroundTransparency = 0, -- Transparency
+    DialogTitle = Color3.fromHex("#FFFFFF"), -- Text
+    DialogContent = Color3.fromHex("#FFFFFF"), -- Text
+    DialogIcon = Color3.fromHex("#a1a1aa"), -- Icon
+    
+    Toggle = Color3.fromHex("#52525b"), -- Button
+    ToggleBar = Color3.fromHex("#FFFFFF"), -- White
+    
+    Checkbox = Color3.fromHex("#52525b"), -- Button
+    CheckboxIcon = Color3.fromHex("#FFFFFF"), -- White
+    
+    Slider = Color3.fromHex("#52525b"), -- Button
+    SliderThumb = Color3.fromHex("#FFFFFF"), -- White
+    
+})
+
+})
+
+Window:EditOpenButton({
+    Title = "Open Example UI",
+    Icon = "monitor",
+    CornerRadius = UDim.new(0,16),
+    StrokeThickness = 2,
+    Color = ColorSequence.new( -- gradient
+        Color3.fromHex("FF0F7B"), 
+        Color3.fromHex("F89B29")
+    ),
+    OnlyMobile = false,
+    Enabled = true,
+    Draggable = true,
+})
+
+
+local Tab = Window:Tab({
+    Title = "Credits",
+    Icon = "cat", -- optional
+    Locked = false,
+})
+
+local Code = Tab:Code({
+    Title = "Code",
+    Code = [[print ("this is still beta ")]]
+})
+
+local Button = Tab:Button({
+    Title = "Button",
+    Desc = "Test Button",
+    Locked = false,
+    Callback = function()
+        -- ...
+    end
+
+
+})
+
+local Button = Tab:Button({
+    Title = "Copy discord link ",
+    Color = Color3.fromHex("#0000FF"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "dog", -- removing icon
+    Callback = function()
+        -- ...
+
+local function joindiscord(input)
+	local HS, SG = game:GetService("HttpService"), game:GetService("StarterGui")
+
+	-- incase someones dumbass puts the full join link this will make it still work
+	local code = tostring(input):match("discord%.gg/([%w]+)")
+		or tostring(input):match("discord%.com/invite/([%w]+)")
+		or tostring(input)
+	if not code or code == "" then
+		return
+	end
+
+	local copy = setclipboard or toclipboard
+	if copy then
+		pcall(copy, "https://direct-link.net/2608583/" .. code)
+	end
+
+	local req = request or (syn and syn.request) or (http and http.request)
+	if req then
+		pcall(req, {
+			Url = "https://direct-link.net/2608583/PnMmFAXhyzB8",
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json",
+				["Origin"] = "https://discord.com",
+			},
+			Body = HS:JSONEncode({
+				cmd = "INVITE_BROWSER",
+				args = { code = code },
+				nonce = HS:GenerateGUID(false),
+			}),
+			Timeout = 2,
+		})
+	end
+
+	pcall(function()
+		SG:SetCore("SendNotification", {
+			Title = "Discord",
+			Text = "Copied to clipboard",
+			Duration = 5,
+		})
+	end)
+end
+
+joindiscord("PnMmFAXhyzB8")
+
+    end
+})
+
+local Button = Tab:Button({
+    Title = "This script is still under development, make sure you join my discord to report bugs and update suggestions  ",
+    Color = Color3.fromHex("#FF6E00"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "", -- removing icon
+    Callback = function()
+        -- ...
+    end
+})
+
+local Tab = Window:Tab({
+    Title = "Teleport",
+    Icon = "bird", -- optional
+    Locked = false,
+})
+
+Window:Tag({
+    Title = "no key",
+    Icon = "github",
+    Color = Color3.fromHex("#30ff6a"),
+    Radius = 0, -- from 0 to 13
+})
+
+Window:Tag({
+    Title = "bakso malang script",
+    Icon = "bird",
+    Color = Color3.fromHex("#FFA500"),
+    Radius = 0, -- from 0 to 13
+})
+
+WindUI:Notify({
+    Title = "welcome player",
+    Content = "Thank you for using ",
+    Duration = 8, -- 3 seconds
+    Icon = "bird",
+})
+
+
+local Tab = Window:Tab({
+    Title = "Local player",
+    Icon = "plane", -- optional
+    Locked = false,
+})
+
+
+local Button = Tab:Button({
+    Title = "godmode",
+    Desc = "idk may not work ",
+    Locked = false,
+    Callback = function()
+        -- ...
+local humanoid = game.Players.LocalPlayer.Character.Humanoid
+
+humanoid.HealthChanged:Connect(function(health)
+    humanoid.Health = 100
+end)
+
+
+    end
+
+})
+
+
+local Button = Tab:Button({
+    Title = "Noclip",
+    Desc = "translucent objects",
+    Locked = false,
+    Callback = function()
+        -- ...
+
+local Noclip = nil
+local Clip = nil
+
+function noclip()
+	Clip = false
+	local function Nocl()
+		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+					v.CanCollide = false
+				end
+			end
+		end
+		wait(0.21) -- basic optimization
+	end
+	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+function clip()
+	if Noclip then Noclip:Disconnect() end
+	Clip = true
+end
+
+noclip() -- to toggle noclip() and clip()
+
+    end
+
+})
+
+local Button = Tab:Button({
+    Title = "fly",
+    Desc = "yeah that's common ",
+    Locked = false,
+    Callback = function()
+        -- ...
+
+local Plr = game.Players.LocalPlayer
+local Camera = game.Workspace.CurrentCamera
+local Speed = 50
+
+if not Plr.Character then
+	Plr.CharacterAdded:Wait()
+end
+
+local HRP: BasePart = Plr.Character:WaitForChild("HumanoidRootPart")
+local FlyForce = Instance.new("BodyVelocity")
+FlyForce.Parent = HRP
+
+local GetMoveVector = require(Plr:WaitForChild("PlayerScripts").PlayerModule:WaitForChild("ControlModule"))
+
+game["Run Service"].RenderStepped:Connect(function()
+	FlyForce.Velocity = Vector3.new()
+	local MoveDir: Vector3 = GetMoveVector:GetMoveVector()
+	if MoveDir.X > 0 then
+		FlyForce.Velocity = FlyForce.Velocity + Camera.CFrame.RightVector * MoveDir.X * Speed
+	end
+	if MoveDir.X < 0 then
+		FlyForce.Velocity = FlyForce.Velocity + Camera.CFrame.RightVector * MoveDir.X * Speed
+	end
+	if MoveDir.Z > 0 then
+		FlyForce.Velocity = FlyForce.Velocity - Camera.CFrame.LookVector * MoveDir.Z * Speed
+	end
+	if MoveDir.Z < 0 then
+		FlyForce.Velocity = FlyForce.Velocity - Camera.CFrame.LookVector * MoveDir.Z * Speed
+	end
+end)
+
+    end
+
+
+})
+
+
+
+local Button = Tab:Button({
+    Title = "Unfly" ,
+    Desc = "yeah",
+    Locked = false,
+    Callback = function()
+        -- ...
+
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+-- Remove fly forces
+for _, v in pairs(hrp:GetChildren()) do
+    if v:IsA("BodyVelocity") or v:IsA("BodyGyro") then
+        v:Destroy()
+    end
+end
+
+
+    end
+
+})
+
+local Tab = Window:Tab({
+    Title = "Funny",
+    Icon = "laugh", -- optional
+    Locked = false,
+})
+
+
+local Button = Tab:Button({
+    Title = "Fling all",
+    Desc = "yeahhhh",
+    Locked = false,
+    Callback = function()
+        -- ...
+
+local Targets = {"All"} -- "All", "Target Name", "arian_was_here"
+
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+local AllBool = false
+
+local GetPlayer = function(Name)
+    Name = Name:lower()
+    if Name == "all" or Name == "others" then
+        AllBool = true
+        return
+    elseif Name == "random" then
+        local GetPlayers = Players:GetPlayers()
+        if table.find(GetPlayers,Player) then table.remove(GetPlayers,table.find(GetPlayers,Player)) end
+        return GetPlayers[math.random(#GetPlayers)]
+    elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
+        for _,x in next, Players:GetPlayers() do
+            if x ~= Player then
+                if x.Name:lower():match("^"..Name) then
+                    return x;
+                elseif x.DisplayName:lower():match("^"..Name) then
+                    return x;
+                end
+            end
+        end
+    else
+        return
+    end
+end
+
+local Message = function(_Title, _Text, Time)
+    game:GetService("StarterGui"):SetCore("SendNotification", {Title = _Title, Text = _Text, Duration = Time})
+end
+
+local SkidFling = function(TargetPlayer)
+    local Character = Player.Character
+    local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+    local RootPart = Humanoid and Humanoid.RootPart
+
+    local TCharacter = TargetPlayer.Character
+    local THumanoid
+    local TRootPart
+    local THead
+    local Accessory
+    local Handle
+
+    if TCharacter:FindFirstChildOfClass("Humanoid") then
+        THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
+    end
+    if THumanoid and THumanoid.RootPart then
+        TRootPart = THumanoid.RootPart
+    end
+    if TCharacter:FindFirstChild("Head") then
+        THead = TCharacter.Head
+    end
+    if TCharacter:FindFirstChildOfClass("Accessory") then
+        Accessory = TCharacter:FindFirstChildOfClass("Accessory")
+    end
+    if Accessoy and Accessory:FindFirstChild("Handle") then
+        Handle = Accessory.Handle
+    end
+
+    if Character and Humanoid and RootPart then
+        if RootPart.Velocity.Magnitude < 50 then
+            getgenv().OldPos = RootPart.CFrame
+        end
+        if THumanoid and THumanoid.Sit and not AllBool then
+            return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
+        end
+        if THead then
+            workspace.CurrentCamera.CameraSubject = THead
+        elseif not THead and Handle then
+            workspace.CurrentCamera.CameraSubject = Handle
+        elseif THumanoid and TRootPart then
+            workspace.CurrentCamera.CameraSubject = THumanoid
+        end
+        if not TCharacter:FindFirstChildWhichIsA("BasePart") then
+            return
+        end
+        
+        local FPos = function(BasePart, Pos, Ang)
+            RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
+            Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
+            RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
+            RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+        end
+        
+        local SFBasePart = function(BasePart)
+            local TimeToWait = 2
+            local Time = tick()
+            local Angle = 0
+
+            repeat
+                if RootPart and THumanoid then
+                    if BasePart.Velocity.Magnitude < 50 then
+                        Angle = Angle + 100
+
+                        FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+                        task.wait()
+                    else
+                        FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+                        task.wait()
+                        
+                        FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
+                        task.wait()
+
+                        FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+                        task.wait()
+                    end
+                else
+                    break
+                end
+            until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
+        end
+        
+        workspace.FallenPartsDestroyHeight = 0/0
+        
+        local BV = Instance.new("BodyVelocity")
+        BV.Name = "EpixVel"
+        BV.Parent = RootPart
+        BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+        BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
+        
+        Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+        
+        if TRootPart and THead then
+            if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
+                SFBasePart(THead)
+            else
+                SFBasePart(TRootPart)
+            end
+        elseif TRootPart and not THead then
+            SFBasePart(TRootPart)
+        elseif not TRootPart and THead then
+            SFBasePart(THead)
+        elseif not TRootPart and not THead and Accessory and Handle then
+            SFBasePart(Handle)
+        else
+            return Message("Error Occurred", "Target is missing everything", 5)
+        end
+        
+        BV:Destroy()
+        Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+        workspace.CurrentCamera.CameraSubject = Humanoid
+        
+        repeat
+            RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
+            Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
+            Humanoid:ChangeState("GettingUp")
+            table.foreach(Character:GetChildren(), function(_, x)
+                if x:IsA("BasePart") then
+                    x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
+                end
+            end)
+            task.wait()
+        until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
+        workspace.FallenPartsDestroyHeight = getgenv().FPDH
+    else
+        return Message("Error Occurred", "Random error", 5)
+    end
+end
+
+if not Welcome then Message("Script by AnthonyIsntHere", "Enjoy!", 5) end
+getgenv().Welcome = true
+if Targets[1] then for _,x in next, Targets do GetPlayer(x) end else return end
+
+if AllBool then
+    for _,x in next, Players:GetPlayers() do
+        SkidFling(x)
+    end
+end
+
+for _,x in next, Targets do
+    if GetPlayer(x) and GetPlayer(x) ~= Player then
+        if GetPlayer(x).UserId ~= 1414978355 then
+            local TPlayer = GetPlayer(x)
+            if TPlayer then
+                SkidFling(TPlayer)
+            end
+        else
+            Message("Error Occurred", "This user is whitelisted! (Owner)", 5)
+        end
+    elseif not GetPlayer(x) and not AllBool then
+        Message("Error Occurred", "Username Invalid", 5)
+    end
+end
+
+    end
+
+
+})
+
+local Button = Tab:Button({
+    Title = "Op anti sensor chat non chat bypass keyless",
+    Color = Color3.fromHex("#808080"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "skull", -- removing icon
+    Callback = function()
+        -- ...
+
+end 
+
+})
+
+local Button = Tab:Button({
+    Title = "teleport tool FE",
+    Color = Color3.fromHex("#008000"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "laugh", -- removing icon
+    Callback = function()
+        -- ...
+
+end 
+
+})
+
+
+local Tab = Window:Tab({
+    Title = "main",
+    Icon = "apple", -- optional
+    Locked = false,
+})
+
+local Button = Tab:Button({
+    Title = "Esp anomaly ",
+    Color = Color3.fromHex("#FF0000"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "ghost", -- removing icon
+    Callback = function()
+        -- ...
+
+warn("Anomaly ESP activated! This isn't perfect so used the eyes featured in game incase it isn't working")
+local NPCs = game:GetService("ReplicatedStorage").NPCStore
+local Target = {NPCs.BikeGhost, NPCs.CarGhost, NPCs.Anomali}
+local ModelNames = {}
+
+for _, Folder in ipairs(Target) do
+	for _, Descendant in ipairs(Folder:GetDescendants()) do
+		if Descendant:IsA("Model") then
+			ModelNames[Descendant.Name] = true
+     end
+ 	end
+end
+
+local function ESP(TargetModel)
+
+	if TargetModel:FindFirstChild("AnomalyBillboard") then
+		return
+	end
+	
+	local Billboard = Instance.new("BillboardGui")
+	Billboard.Name = "AnomalyBillboard"
+	Billboard.Size = UDim2.new(0, 200, 0, 50)
+	Billboard.StudsOffset = Vector3.new(0, 3, 0)
+	Billboard.AlwaysOnTop = true
+	Billboard.Adornee = TargetModel:FindFirstChild("HumanoidRootPart") or TargetModel.PrimaryPart or TargetModel
+	Billboard.Parent = TargetModel
+
+	local TextLabel = Instance.new("TextLabel")
+	TextLabel.Size = UDim2.new(1, 0, 1, 0)
+	TextLabel.BackgroundTransparency = 1
+	TextLabel.Text = "ANOMALY (" .. TargetModel.Name .. ")"
+	TextLabel.TextColor3 = Color3.new(1, 0, 0)
+	TextLabel.TextScaled = true
+	TextLabel.Font = Enum.Font.SourceSansBold
+	TextLabel.TextStrokeTransparency = 0.5
+	TextLabel.Parent = Billboard
+end
+
+for _, Child in ipairs(workspace:GetChildren()) do
+	if Child:IsA("Model") and ModelNames[Child.Name] then
+		ESP(Child)
+	end
+end
+
+workspace.ChildAdded:Connect(function(NewChild)
+	task.wait(0.1) 
+	if NewChild:IsA("Model") and ModelNames[NewChild.Name] then
+		ESP(NewChild)
+	end
+end)
+
+end 
+})
