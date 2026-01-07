@@ -2,8 +2,8 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 local Window = WindUI:CreateWindow({
     Title = "zhypers Hub",
-    Icon = "blind shot games", -- lucide icon
-    Author = "By zhypers",
+    Icon = "game", -- lucide icon
+    Author = "By yazouka",
     Folder = "MySuperHub",
     
     -- ↓ This all is Optional. You can remove it.
@@ -741,6 +741,62 @@ task.spawn(function()
 		end
 	end
 end
+
+    end
+})
+
+local Button = Tab:Button({
+    Title = "Auto prompt auto serve buyers ",
+    Color = Color3.fromHex("#EE4B2B"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "thumb", -- removing icon
+    Callback = function()
+        -- ...
+
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local humanoid = char:WaitForChild("Humanoid")
+local root = char:WaitForChild("HumanoidRootPart")
+
+local positions = {
+	Vector3.new(-13, 6, -6),
+	Vector3.new(-11, 6, -3),
+	 
+}
+
+local running = true
+local startTime = tick()
+
+-- Fungsi auto click & instant prompt
+local function triggerPrompt()
+	for _, v in pairs(workspace:GetDescendants()) do
+		if v:IsA("ProximityPrompt") then
+			pcall(function()
+				v.HoldDuration = 0
+				v:InputHoldBegin()
+				task.wait()
+				v:InputHoldEnd()
+			end)
+		end
+	end
+end
+
+task.spawn(function()
+	while running do
+		for _, pos in ipairs(positions) do
+			if tick() - startTime >= 9 then
+				running = false
+				break
+			end
+
+			root.CFrame = CFrame.new(pos)
+			triggerPrompt()
+			task.wait(2) -- tunggu 2 detik sebelum ke posisi selanjutnya
+		end
+	end
+end)
+
 
     end
 })
