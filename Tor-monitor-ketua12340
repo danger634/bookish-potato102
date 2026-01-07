@@ -695,106 +695,29 @@ end
 })
 
 local Button = Tab:Button({
-    Title = "sit in place",
+    Title = "Instant Proximity Prompt",
     Color = Color3.fromHex("#FF0000"), -- paint the button
     Justify = "Center", -- align items in the center (Center or Between or Left or Right)
     IconAlign = "Left", -- Left or Right of the text
-    Icon = "skull", -- removing icon
+    Icon = "lightning", -- removing icon
     Callback = function()
         -- ...
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoid = character:WaitForChild("Humanoid")
-local root = character:WaitForChild("HumanoidRootPart")
+local ProximityPromptHoldDuration = 0.1 -- how long it will take to activate ProximityPrompt
 
-local positions = {
-	Vector3.new(-2, 4, -11),
-	Vector3.new(-2, 4, -8),
-	Vector3.new(5, 4, -8),
-	Vector3.new(5, 4, -11),
-	Vector3.new(-2, 4, -2),
-	Vector3.new(5, 4, -2),
-}
+local ChangedObjects = {}
 
-local running = true
-local startTime = tick()
+for _, ProximityObject in pairs(workspace:GetDescendants()) do
 
--- Stop kalau duduk
-humanoid.Seated:Connect(function(isSeated)
-	if isSeated then
-		running = false
-	end
-end)
+    if ProximityObject:IsA("ProximityPrompt") then
 
-task.spawn(function()
-	while running do
-		for _, pos in ipairs(positions) do
-			if not running then break end
-			if tick() - startTime >= 9 then
-				running = false
-				break
-			end
+        ChangedObjects[ProximityObject] = ProximityObject.HoldDuration
 
-			root.CFrame = CFrame.new(pos)
-			task.wait(2.9) -- jeda antar teleport (bisa diubah)
-		end
-	end
-end
+        ProximityObject.HoldDuration = ProximityPromptHoldDuration
 
     end
-})
 
-local Button = Tab:Button({
-    Title = "Auto prompt auto serve buyers ",
-    Color = Color3.fromHex("#FF0000"), -- paint the button
-    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
-    IconAlign = "Left", -- Left or Right of the text
-    Icon = "ghost", -- removing icon
-    Callback = function()
-        -- ...
-
-local player = game.Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local humanoid = char:WaitForChild("Humanoid")
-local root = char:WaitForChild("HumanoidRootPart")
-
-local positions = {
-	Vector3.new(-13, 6, -6),
-	Vector3.new(-11, 6, -3),
-
-local running = true
-local startTime = tick()
-
--- Fungsi auto click & instant prompt
-local function triggerPrompt()
-	for _, v in pairs(workspace:GetDescendants()) do
-		if v:IsA("ProximityPrompt") then
-			pcall(function()
-				v.HoldDuration = 0
-				v:InputHoldBegin()
-				task.wait()
-				v:InputHoldEnd()
-			end)
-		end
-	end
 end
-
-task.spawn(function()
-	while running do
-		for _, pos in ipairs(positions) do
-			if tick() - startTime >= 9 then
-				running = false
-				break
-			end
-
-			root.CFrame = CFrame.new(pos)
-			triggerPrompt()
-			task.wait(2) -- tunggu 2 detik sebelum ke posisi selanjutnya
-		end
-	end
-end)
-
 
     end
 })
