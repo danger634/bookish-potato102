@@ -693,3 +693,54 @@ end)
 
 end 
 })
+
+local Button = Tab:Button({
+    Title = "sit in place auto off",
+    Color = Color3.fromHex("#EE4B2B"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "thumb", -- removing icon
+    Callback = function()
+        -- ...
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local root = character:WaitForChild("HumanoidRootPart")
+
+local positions = {
+	Vector3.new(-2, 4, -11),
+	Vector3.new(-2, 4, -8),
+	Vector3.new(5, 4, -8),
+	Vector3.new(5, 4, -11),
+	Vector3.new(-2, 4, -2),
+	Vector3.new(5, 4, -2),
+}
+
+local running = true
+local startTime = tick()
+
+-- Stop kalau duduk
+humanoid.Seated:Connect(function(isSeated)
+	if isSeated then
+		running = false
+	end
+end)
+
+task.spawn(function()
+	while running do
+		for _, pos in ipairs(positions) do
+			if not running then break end
+			if tick() - startTime >= 9 then
+				running = false
+				break
+			end
+
+			root.CFrame = CFrame.new(pos)
+			task.wait(2.9) -- jeda antar teleport (bisa diubah)
+		end
+	end
+end
+
+    end
+})
