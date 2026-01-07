@@ -2,7 +2,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 local Window = WindUI:CreateWindow({
     Title = "zhypers Hub",
-    Icon = "game", -- lucide icon
+    Icon = "apple", -- lucide icon
     Author = "By yazouka",
     Folder = "MySuperHub",
     
@@ -695,11 +695,11 @@ end
 })
 
 local Button = Tab:Button({
-    Title = "sit in place auto off",
-    Color = Color3.fromHex("#EE4B2B"), -- paint the button
+    Title = "sit in place",
+    Color = Color3.fromHex("#FF0000"), -- paint the button
     Justify = "Center", -- align items in the center (Center or Between or Left or Right)
     IconAlign = "Left", -- Left or Right of the text
-    Icon = "thumb", -- removing icon
+    Icon = "skull", -- removing icon
     Callback = function()
         -- ...
 
@@ -747,10 +747,10 @@ end
 
 local Button = Tab:Button({
     Title = "Auto prompt auto serve buyers ",
-    Color = Color3.fromHex("#EE4B2B"), -- paint the button
+    Color = Color3.fromHex("#FF0000"), -- paint the button
     Justify = "Center", -- align items in the center (Center or Between or Left or Right)
     IconAlign = "Left", -- Left or Right of the text
-    Icon = "thumb", -- removing icon
+    Icon = "ghost", -- removing icon
     Callback = function()
         -- ...
 
@@ -762,8 +762,6 @@ local root = char:WaitForChild("HumanoidRootPart")
 local positions = {
 	Vector3.new(-13, 6, -6),
 	Vector3.new(-11, 6, -3),
-	 
-}
 
 local running = true
 local startTime = tick()
