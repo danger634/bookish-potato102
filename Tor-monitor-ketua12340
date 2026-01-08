@@ -732,3 +732,157 @@ end
 
     end
 })
+
+local Button = Tab:Button({
+    Title = "Esp Anomaly working",
+    Color = Color3.fromHex("#82CAFF"), -- paint the button
+    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
+    IconAlign = "Left", -- Left or Right of the text
+    Icon = "ghost", -- removing icon
+    Callback = function()
+        -- ...
+
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+
+local ESPEnabled = true
+local MAX_DISTANCE = 235
+local MAX_HEIGHT = 150
+
+-- === 1. DAFTAR NAMA NPC MANUSIA (PASTI HIJAU) ===
+local NPC_WHITELIST = {
+    "pak", "bu", "mas", "mbak", "mbah", "warga", "penjual", "pembeli", 
+    "bakso", "mang", "bang", "tukang", "customer", "orang", "bapak", "ibu"
+}
+
+-- === 2. DAFTAR NAMA ANOMALI (PASTI MERAH) ===
+local ANOMALY_BLACKLIST = {
+    "anomaly", "hantu", "pocong", "kuntilanak", "genderuwo", "suster", 
+    "ngesot", "banaspati", "palasik", "leak", "jenglot", "jumpscare", 
+    "entity", "monster", "horror", "setan", "ghost"
+}
+
+local function GetEntityType(model)
+    if Players:GetPlayerFromCharacter(model) then return "PLAYER" end
+    
+    local name = model.Name:lower()
+    local parent = (model.Parent and model.Parent.Name) or ""
+    
+    -- Cek folder (Folder adalah indikator paling akurat di game ini)
+    if parent == "Anomalies" or parent == "Entities" or parent == "HorrorEntities" then
+        return "ANOMALY"
+    end
+    
+    -- Cek keyword Anomali
+    for _, word in pairs(ANOMALY_BLACKLIST) do
+        if string.find(name, word) then
+            return "ANOMALY"
+        end
+    end
+    
+    -- Cek keyword NPC (Kalau ada kata "Pak" atau "Mas", jangan jadi merah)
+    for _, word in pairs(NPC_WHITELIST) do
+        if string.find(name, word) then
+            return "NPC"
+        end
+    end
+    
+    -- Cek Attribute
+    if model:GetAttribute("IsAnomaly") or model:FindFirstChild("Jumpscare") then
+        return "ANOMALY"
+    end
+    
+    -- Default jika ada Humanoid tapi bukan anomali = NPC
+    if model:FindFirstChild("Humanoid") then
+        return "NPC"
+    end
+    
+    return nil
+end
+
+local function ShouldShow(model)
+    local part = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Head") or model.PrimaryPart
+    if not part then return false end
+    
+    local myHRP = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if not myHRP then return false end
+    
+    local dist = (part.Position - myHRP.Position).Magnitude
+    local height = part.Position.Y
+    
+    -- Filter Jarak, Tinggi (Pohon), dan Kedalaman (Bawah tanah)
+    return dist <= MAX_DISTANCE and height <= MAX_HEIGHT and height >= -20
+end
+
+local function AddESP(model)
+    if model:FindFirstChild("BALANCE_ESP_TAG") then return end
+    if model == LocalPlayer.Character then return end
+
+    local entityType = GetEntityType(model)
+    if not entityType then return end
+
+    local bill = Instance.new("BillboardGui")
+    bill.Name = "BALANCE_ESP_TAG"
+    bill.Parent = model
+    bill.Size = UDim2.new(0, 250, 0, 70)
+    bill.StudsOffset = Vector3.new(0, 4, 0)
+    bill.AlwaysOnTop = true
+    bill.Adornee = model:FindFirstChild("Head") or model:FindFirstChild("HumanoidRootPart") or model.PrimaryPart
+
+    local text = Instance.new("TextLabel", bill)
+    text.BackgroundTransparency = 1
+    text.Size = UDim2.new(1,0,1,0)
+    text.Font = Enum.Font.GothamBold
+    text.TextStrokeTransparency = 0
+    text.TextStrokeColor3 = Color3.new(0,0,0)
+    text.TextSize = 22
+
+    spawn(function()
+        while model and model.Parent and ESPEnabled do
+            if ShouldShow(model) then
+                bill.Enabled = true
+                local part = model:FindFirstChild("HumanoidRootPart") or model:FindFirstChild("Head") or model.PrimaryPart
+                local dist = (LocalPlayer.Character.HumanoidRootPart.Position - part.Position).Magnitude
+                
+                if entityType == "PLAYER" then
+                    text.Text = "PLAYER\n" .. math.floor(dist) .. "m"
+                    text.TextColor3 = Color3.fromRGB(80, 180, 255)
+                elseif entityType == "ANOMALY" then
+                    text.Text = "ANOMALY\n" .. math.floor(dist) .. "m"
+                    text.TextColor3 = Color3.fromRGB(255, 30, 30)
+                else -- NPC
+                    text.Text = "NPC\n" .. math.floor(dist) .. "m"
+                    text.TextColor3 = Color3.fromRGB(50, 255, 100)
+                end
+            else
+                bill.Enabled = false
+            end
+            task.wait(0.15)
+        end
+        bill:Destroy()
+    end)
+end
+
+-- Scan awal
+for _, v in ipairs(Workspace:GetDescendants()) do
+    if v:IsA("Model") then task.spawn(AddESP, v) end
+end
+
+-- Scan saat ada yang spawn
+Workspace.DescendantAdded:Connect(function(v)
+    if ESPEnabled and v:IsA("Model") then
+        task.wait(1.2)
+        if v and v.Parent then task.spawn(AddESP, v) end
+    end
+end)
+
+UserInputService.InputBegan:Connect(function(k)
+    if k.KeyCode == Enum.KeyCode.Insert then
+        ESPEnabled = not ESPEnabled
+        print("BALANCE ESP →", ESPEnabled and "ON" or "OFF")
+    end
+end)
+
+})
